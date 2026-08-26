@@ -1,5 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import FoodItem
+from django.shortcuts import get_object_or_404
+
+def delete_food(request, food_id):
+    food = get_object_or_404(FoodItem, id=food_id)
+    food.delete()
+    return redirect("home")
 
 def home(request):
 

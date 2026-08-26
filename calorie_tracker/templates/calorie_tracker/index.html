@@ -8,8 +8,7 @@
         CALORIE COUNTER
     </h1>
 
-    <form method="POST"
-          class="p-6 bg-white rounded-xl shadow-md max-w-xl mx-auto space-y-4">
+    <form method="POST" class="p-6 bg-white rounded-xl shadow-md max-w-xl mx-auto space-y-4">
 
         {% csrf_token %}
 
@@ -18,8 +17,7 @@
                 Day
             </label>
 
-            <select name="day"
-                    class="w-full border-2 rounded p-2">
+            <select name="day" class="w-full border-2 rounded p-2">
 
                 <option>Monday</option>
                 <option>Tuesday</option>
@@ -37,8 +35,7 @@
                 Meal
             </label>
 
-            <select name="meal"
-                    class="w-full border-2 rounded p-2">
+            <select name="meal" class="w-full border-2 rounded p-2">
 
                 <option>Breakfast</option>
                 <option>Lunch</option>
@@ -52,11 +49,7 @@
                 Calories
             </label>
 
-            <input
-                type="number"
-                name="calories"
-                class="w-full border-2 rounded p-2"
-                required>
+            <input type="number" name="calories" class="w-full border-2 rounded p-2" required>
         </div>
 
         <div>
@@ -64,19 +57,16 @@
                 Food
             </label>
 
-            <input
-                type="text"
-                name="food"
-                class="w-full border-2 rounded p-2"
-                required>
+            <input type="text" name="food" class="w-full border-2 rounded p-2" required>
         </div>
 
-        <button
-            type="submit"
-            class="w-full bg-blue-500 text-white p-2 rounded">
+        <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded">
 
             Add Entry
         </button>
+        <a href="{% url 'delete_food' food.id %}" class="bg-red-500 text-white px-3 py-1 rounded">
+            Delete
+        </a>
 
     </form>
 
