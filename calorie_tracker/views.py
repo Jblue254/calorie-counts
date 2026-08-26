@@ -7,6 +7,10 @@ def delete_food(request, food_id):
     food.delete()
     return redirect("home")
 
+def reset_calories(request):
+    FoodItem.objects.all().delete()
+    return redirect("home")
+
 def home(request):
 
     if request.method == "POST":
