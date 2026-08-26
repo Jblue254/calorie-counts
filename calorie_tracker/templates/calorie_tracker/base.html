@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calorie Counter</title>
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-black min-h-screen">
+<body class="bg-slate-100 min-h-screen text-gray-900 antialiased">
 
+    <!-- Main View Content -->
     {% block content %}
+    {% endblock %}
+
+    <!-- Chart.js Library (Loaded before child scripts) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Page-Specific Scripts -->
+    {% block extra_scripts %}
     {% endblock %}
 
 </body>
