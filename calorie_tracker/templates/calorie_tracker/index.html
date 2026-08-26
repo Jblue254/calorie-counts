@@ -8,6 +8,14 @@
         CALORIE COUNTER
     </h1>
 
+    {% if messages %}
+    {% for message in messages %}
+        <div class="max-w-xl mx-auto mb-4 bg-green-500 text-white p-3 rounded">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+
     <!-- ADD ENTRY FORM -->
     <form method="POST" class="p-6 bg-white rounded-xl shadow-md max-w-xl mx-auto space-y-4">
         {% csrf_token %}
@@ -36,7 +44,7 @@
 
         <div>
             <label class="block mb-1 font-medium text-gray-700">Calories</label>
-            <input type="number" name="calories" class="w-full border-2 rounded p-2 text-gray-900" required>
+            <input type="number" name="calories" min="1" class="w-full border-2 rounded p-2 text-gray-900" required>
         </div>
 
         <div>
@@ -56,12 +64,27 @@
         </h2>
 
         <!-- RESET ALL FORM -->
-        <form action="{% url 'reset_calories' %}" method="POST">
+        <form action="{% url 'reset_calories' %}" method="POST"
+              onsubmit="return confirm('Reset all entries for today?');">
             {% csrf_token %}
             <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-semibold transition">
                 Reset Day
             </button>
         </form>
+    </div>
+
+    <div class="mt-4 max-w-xl mx-auto">
+        <div class="flex justify-between text-sm text-gray-700 mb-1">
+            <span>Daily Goal</span>
+            <span>{{ total_calories }}/{{ goal }} Calories</span>
+        </div>
+
+        <div class="w-full bg-gray-200 rounded-full h-4">
+            <div
+                class="bg-green-500 h-4 rounded-full transition-all"
+                style="width: min({{ percentage }}%, 100%);">
+            </div>
+        </div>
     </div>
 
     <!-- HISTORY LIST -->
@@ -71,9 +94,9 @@
         {% for item in foods %}
         <div class="border-b py-3 flex justify-between items-center">
             <p class="text-gray-800">
-                <strong class="text-gray-900">{{ item.day }}</strong> | 
-                <span class="font-medium text-blue-600">{{ item.meal }}</span> | 
-                {{ item.food }} — 
+                <strong class="text-gray-900">{{ item.day }}</strong> |
+                <span class="font-medium text-blue-600">{{ item.meal }}</span> |
+                {{ item.food }} —
                 <span class="font-semibold">{{ item.calories }} Cal</span>
             </p>
 
@@ -95,7 +118,11 @@
         <h2 class="text-2xl font-bold mb-4 text-gray-800">
             Calories Chart
         </h2>
-        <canvas id="calorieChart"></canvas>
+        {% if foods %}
+            <canvas id="calorieChart"></canvas>
+        {% else %}
+            <p class="text-gray-500 italic">No data to chart yet.</p>
+        {% endif %}
     </div>
 
 </div>
@@ -112,7 +139,7 @@
       data: {
         labels: [
           {% for item in foods %}
-            '{{ item.food|escapejs }}'{% if not forloop.last %},{% endif %}
+            '{{ item.food|escapejs }} ({{ item.day|escapejs }})'{% if not forloop.last %},{% endif %}
           {% endfor %}
         ],
         datasets: [{
@@ -139,5 +166,3 @@
   }
 </script>
 {% endblock %}
-
-

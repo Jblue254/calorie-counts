@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import FoodItem
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
+
 
 def delete_food(request, food_id):
     food = get_object_or_404(FoodItem, id=food_id)
@@ -34,10 +36,15 @@ def home(request):
         food.calories for food in foods
     )
 
+    goal = 2000
+
     context = {
+
         "foods": foods,
         "total_calories": total_calories,
-    }
+        "goal": goal,
+        "percentage": min((total_calories / goal) * 100, 100)
+        }
 
     return render(
         request,
